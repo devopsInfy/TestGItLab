@@ -8,7 +8,7 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://maven.apache.org/POM/
 <packaging>pom</packaging>
 
 <properties>
-    <visual.studio.solution>MavenBuildTesting.sln</visual.studio.solution>
+    <visual.studio.solution>SampleCDRMWebApp.sln</visual.studio.solution>
     <visual.test.project.pattern>*.Tests</visual.test.project.pattern>
     <dotnet.tool.version>3.5</dotnet.tool.version>
     <sonar.language>cs</sonar.language>
