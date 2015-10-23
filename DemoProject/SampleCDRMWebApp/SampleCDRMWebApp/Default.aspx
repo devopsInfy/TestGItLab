@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <hgroup class="title">
                
-                <h2>CDRM Web Application Release</h2>
+                <h2>CDRM Web Application Release 1</h2>
             </hgroup>
             
         </div>
