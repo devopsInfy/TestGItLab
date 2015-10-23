@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleCDRMWebApp", "SampleCDRMWebApp\SampleCDRMWebApp.csproj", "{BE977941-4F31-4C68-9072-715A56A44D7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{FCB8F905-C42F-42F4-839A-5B4671BA55D4}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DemoDB", "DemoDB\DemoDB.sqlproj", "{59580993-7CA5-498C-8BB6-BA73921F205C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{08B370DF-7A78-47A5-A388-D999F7A83FE0}"
+	ProjectSection(SolutionItems) = preProject
+		CodeCoverage.runsettings = CodeCoverage.runsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://pundevopscdrm:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = SampleCDRMWebApp\\SampleCDRMWebApp.csproj
+		SccProjectName1 = SampleCDRMWebApp
+		SccLocalPath1 = SampleCDRMWebApp
+		SccProjectUniqueName2 = UnitTestProject1\\UnitTestProject1.csproj
+		SccProjectName2 = UnitTestProject1
+		SccLocalPath2 = UnitTestProject1
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE977941-4F31-4C68-9072-715A56A44D7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE977941-4F31-4C68-9072-715A56A44D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE977941-4F31-4C68-9072-715A56A44D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE977941-4F31-4C68-9072-715A56A44D7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB8F905-C42F-42F4-839A-5B4671BA55D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB8F905-C42F-42F4-839A-5B4671BA55D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB8F905-C42F-42F4-839A-5B4671BA55D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB8F905-C42F-42F4-839A-5B4671BA55D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59580993-7CA5-498C-8BB6-BA73921F205C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59580993-7CA5-498C-8BB6-BA73921F205C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59580993-7CA5-498C-8BB6-BA73921F205C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{59580993-7CA5-498C-8BB6-BA73921F205C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59580993-7CA5-498C-8BB6-BA73921F205C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59580993-7CA5-498C-8BB6-BA73921F205C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

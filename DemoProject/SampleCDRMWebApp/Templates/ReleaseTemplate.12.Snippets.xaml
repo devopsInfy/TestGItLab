@@ -1,0 +1,197 @@
+﻿<Activity this:Process.ReleaseBuild="False" xmlns:mtc="clr-namespace:Microsoft.TeamFoundation.Client;assembly=Microsoft.TeamFoundation.Client" xmlns:mw="clr-namespace:Microsoft.Win32;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:si="clr-namespace:System.IO;assembly=mscorlib">
+  <x:Members>
+<!-- RM : START -->
+    <x:Property Name="ConfigurationsToRelease" Type="InArgument(s:String[])" />
+    <x:Property Name="ProcessReleaseTokens" Type="InArgument(x:Boolean)" />
+    <x:Property Name="ReleaseBuild" Type="InArgument(x:Boolean)" />
+    <x:Property Name="ReleaseTokensFolderPath" Type="InArgument(x:String)" />
+    <x:Property Name="ReleaseTargetStage" Type="InArgument(x:String)" />
+<!-- RM : END -->
+  </x:Members>
+...
+  <this:Process.ConfigurationsToBuild>
+    <InArgument x:TypeArguments="s:String[]" />
+  </this:Process.ConfigurationsToBuild>
+<!-- RM : START -->
+  <this:Process.ConfigurationsToRelease>
+    <InArgument x:TypeArguments="s:String[]" />
+  </this:Process.ConfigurationsToRelease>  
+<!-- RM : END -->
+  <this:Process.BuildNumberFormat>["$(BuildDefinitionName)_$(Date:yyyyMMdd)$(Rev:.r)"]</this:Process.BuildNumberFormat>
+...
+  <this:Process.Metadata>
+    <mtbw:ProcessParameterMetadataCollection>
+<!-- RM : START -->
+      <mtbw:ProcessParameterMetadata ParameterName="ConfigurationsToRelease" BrowsableWhen="EditingDefinition" Category="#500 Release" DisplayName="Configurations to Release" Description="Specify the list of configurations to release. If no configurations are specified the default configuration will be released." Editor="Microsoft.TeamFoundation.Build.Controls.PlatformConfigurationListEditor, Microsoft.TeamFoundation.Build.Controls" />
+      <mtbw:ProcessParameterMetadata ParameterName="ProcessReleaseTokens" BrowsableWhen="Always" Category="#500 Release" DisplayName="Process Release Tokens" Description="Set this to True to indicate you want this build to process files with the extension .token." />
+      <mtbw:ProcessParameterMetadata ParameterName="ReleaseBuild" BrowsableWhen="Always" Category="#500 Release" DisplayName="Release Build" Description="Set this to True to indicate you want this build to be released using the Release Management Server." />
+      <mtbw:ProcessParameterMetadata ParameterName="ReleaseTokensFolderPath" Category="#500 Release" Description="Specify the relative path where to process tokens. Leave blank to search through the entire source location." DisplayName="Release Tokens Folder Path" />
+      <mtbw:ProcessParameterMetadata ParameterName="ReleaseTargetStage" Category="#500 Release" DisplayName="Release Target Stage" Description="Specify the Target Stage for the Release. Leave blank to allow the Release to go through all the Stages defined in the Release Path." />
+<!-- RM : END -->
+    </mtbw:ProcessParameterMetadataCollection>
+  </this:Process.Metadata>
+  <Sequence DisplayName="Overall build process">
+    ...
+    <mtbwa:AgentScope>
+      ...
+      <TryCatch DisplayName="Try">
+        <TryCatch.Try>
+          <Sequence DisplayName="Compile, Test and Publish">
+            <mtba:RunScript DisplayName="Run optional script after MSBuild" />
+<!-- RM : START -->
+            <Sequence DisplayName="Process the release">
+              <Sequence.Variables>
+                <Variable x:TypeArguments="x:String" Name="buildDirectory" />
+              </Sequence.Variables>
+              <mtbwa:GetBuildDirectory DisplayName="Get the Build Directory" Result="[buildDirectory]" />
+              <If Condition="[ProcessReleaseTokens]" DisplayName="If ProcessReleaseTokens is set">
+                <If.Then>
+                  <Sequence DisplayName="Initialize tokens">
+                    <Sequence.Variables>
+                      <Variable x:TypeArguments="scg:IEnumerable(x:String)" Name="tokenFiles" />
+                      <Variable x:TypeArguments="x:String" Name="fileToRename" />
+                      <Variable x:TypeArguments="x:String" Name="folderToSearch" />
+                    </Sequence.Variables>
+                    <Assign DisplayName="Prepare folder to search">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[folderToSearch]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">[Path.Combine(buildDirectory, If(ReleaseTokensFolderPath, String.Empty))]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <mtbwa:FindMatchingFiles DisplayName="Find all .token files" MatchPattern="[String.Format(&quot;{0}\**\*.token&quot;, folderToSearch)]" Result="[tokenFiles]" />
+                    <ForEach x:TypeArguments="x:String" DisplayName="Process each .token file" Values="[tokenFiles]">
+                      <ActivityAction x:TypeArguments="x:String">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="x:String" Name="tokenFile" />
+                        </ActivityAction.Argument>
+                        <Sequence DisplayName="Rename files">
+                          <Assign>
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:String">[fileToRename]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:String">[tokenFile.Replace(".token", String.Empty)]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <InvokeMethod DisplayName="Remove read-only flag from x.y" MethodName="SetAttributes" TargetType="si:File">
+                            <InArgument x:TypeArguments="x:String">[fileToRename]</InArgument>
+                            <InArgument x:TypeArguments="si:FileAttributes">[FileAttributes.Normal]</InArgument>
+                          </InvokeMethod>
+                          <InvokeMethod DisplayName="Copy x.y.token to x.y" MethodName="Copy" TargetType="si:File">
+                            <InArgument x:TypeArguments="x:String">[tokenFile]</InArgument>
+                            <InArgument x:TypeArguments="x:String">[fileToRename]</InArgument>
+                            <InArgument x:TypeArguments="x:Boolean">true</InArgument>
+                          </InvokeMethod>
+                        </Sequence>
+                      </ActivityAction>
+                    </ForEach>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <mtbwa:WriteBuildMessage Importance="[BuildMessageImportance.High]" Message="Skipped execution because ProcessReleaseTokens is not set" mva:VisualBasic.Settings="Assembly references and imported namespaces serialized as XML namespaces" />
+                </If.Else>
+              </If>
+              <If Condition="[ReleaseBuild]" DisplayName="If ReleaseBuild is set">
+                <If.Then>
+                  <Sequence DisplayName="Try to release the build">
+                    <Sequence.Variables>
+                      <Variable x:TypeArguments="x:String" Name="ReleaseBuildBinPath" />
+                      <Variable x:TypeArguments="mtbc:IBuildDetail" Name="ReleaseBuildDetail" />
+                      <Variable x:TypeArguments="x:Int32" Name="ReleaseBuildExitCode" />
+                      <Variable x:TypeArguments="mtc:TfsTeamProjectCollection" Name="ReleaseBuildTpc" />
+                    </Sequence.Variables>
+                    <mtbwa:GetBuildDetail DisplayName="Get the build details" Result="[ReleaseBuildDetail]" />
+                    <Sequence DisplayName="Initialize release build variables">
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="x:Object" Name="ReleaseBuildBinPathObject" />
+                      </Sequence.Variables>
+                      <InvokeMethod DisplayName="Get the Release Management install directory" MethodName="GetValue" TargetType="mw:Registry">
+                        <InvokeMethod.Result>
+                          <OutArgument x:TypeArguments="x:Object">[ReleaseBuildBinPathObject]</OutArgument>
+                        </InvokeMethod.Result>
+                        <InArgument x:TypeArguments="x:String">HKEY_LOCAL_MACHINE\Software\Microsoft\ReleaseManagement\12.0\Client\</InArgument>
+                        <InArgument x:TypeArguments="x:String">InstallDir</InArgument>
+                        <InArgument x:TypeArguments="x:String">Value not found</InArgument>
+                      </InvokeMethod>
+                      <If Condition="[CType(ReleaseBuildBinPathObject, String) = &quot;&quot; Or CType(ReleaseBuildBinPathObject, String) = &quot;PathNotFound&quot;]" DisplayName="Verify the Release Management install directory">
+                        <If.Then>
+                          <InvokeMethod DisplayName="Get the Release Management install directory (x64)" MethodName="GetValue" TargetType="mw:Registry">
+                            <InvokeMethod.Result>
+                              <OutArgument x:TypeArguments="x:Object">[ReleaseBuildBinPathObject]</OutArgument>
+                            </InvokeMethod.Result>
+                            <InArgument x:TypeArguments="x:String">HKEY_LOCAL_MACHINE\Software\WOW6432Node\Microsoft\ReleaseManagement\12.0\Client\</InArgument>
+                            <InArgument x:TypeArguments="x:String">InstallDir</InArgument>
+                            <InArgument x:TypeArguments="x:String">PathNotFound</InArgument>
+                          </InvokeMethod>
+                        </If.Then>
+                      </If>
+                      <Assign x:TypeArguments="x:String" DisplayName="Track the Release Management install directory" mtbwt:BuildTrackingParticipant.Importance="Low" To="[ReleaseBuildBinPath]" Value="[CType(ReleaseBuildBinPathObject, String) + &quot;bin&quot;]" />
+                      <mtbwa:GetTeamProjectCollection DisplayName="Get the Team Project Collection instance" Result="[ReleaseBuildTpc]" />
+                      <If Condition="[ConfigurationsToRelease Is Nothing]" DisplayName="If ConfigurationsToRelease is not set">
+                        <If.Then>
+                          <Sequence DisplayName="Initialize ConfigurationsToRelease">
+                            <Assign DisplayName="Copy from ConfigurationsToBuild">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="s:String[]">[ConfigurationsToRelease]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="s:String[]">[ConfigurationsToBuild]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                        </If.Then>
+                      </If>
+                      <mtbac:DropBinaries DestinationPath="{x:Null}" DisplayName="Copy binaries to drop" Enabled="True" />
+                    </Sequence>
+                    <ForEach x:TypeArguments="x:String" DisplayName="Process each ConfigurationsToRelease" Values="[ConfigurationsToRelease]">
+                      <ActivityAction x:TypeArguments="x:String">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="x:String" Name="item" />
+                        </ActivityAction.Argument>
+                        <Sequence DisplayName="Release the build">
+                          <mtbwa:InvokeProcess Arguments="[String.Format(&quot;-tfs &quot;&quot;{0}&quot;&quot; -tp &quot;&quot;{1}&quot;&quot; -bd &quot;&quot;{2}&quot;&quot; -bn &quot;&quot;{3}&quot;&quot; -ts &quot;&quot;{4}&quot;&quot; -nologo&quot;, ReleaseBuildTpc.Uri, ReleaseBuildDetail.TeamProject, ReleaseBuildDetail.BuildDefinition.Name, ReleaseBuildDetail.BuildNumber, ReleaseTargetStage)]" DisplayName="Run the Release Management build process for the current configuration" FileName="[IO.Path.Combine(ReleaseBuildBinPath, &quot;ReleaseManagementBuild.exe&quot;)]" Result="[ReleaseBuildExitCode]" WorkingDirectory="[ReleaseBuildBinPath]">
+                            <mtbwa:InvokeProcess.ErrorDataReceived>
+                              <ActivityAction x:TypeArguments="x:String">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="x:String" Name="errOutput" />
+                                </ActivityAction.Argument>
+                                <mtbwa:WriteBuildError Message="[errOutput]" />
+                              </ActivityAction>
+                            </mtbwa:InvokeProcess.ErrorDataReceived>
+                            <mtbwa:InvokeProcess.OutputDataReceived>
+                              <ActivityAction x:TypeArguments="x:String">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="x:String" Name="stdOutput" />
+                                </ActivityAction.Argument>
+                                <mtbwa:WriteBuildMessage Importance="[BuildMessageImportance.High]" Message="[stdOutput]" mva:VisualBasic.Settings="Assembly references and imported namespaces serialized as XML namespaces" />
+                              </ActivityAction>
+                            </mtbwa:InvokeProcess.OutputDataReceived>
+                          </mtbwa:InvokeProcess>
+                          <If Condition="[ReleaseBuildExitCode &lt;&gt; 0]" DisplayName="If a Release Build error cccurs">
+                            <If.Then>
+                              <Throw DisplayName="Release build failed" Exception="[New Exception(&quot;Release build failed&quot;)]" />
+                            </If.Then>
+                            <If.Else>
+                              <mtbwa:WriteBuildMessage Importance="[BuildMessageImportance.High]" Message="Skipped due to successful completion" mva:VisualBasic.Settings="Assembly references and imported namespaces serialized as XML namespaces" />
+                            </If.Else>
+                          </If>
+                        </Sequence>
+                      </ActivityAction>
+                    </ForEach>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <mtbwa:WriteBuildMessage Importance="[BuildMessageImportance.High]" Message="Skipped execution because ReleaseBuild is not set" mva:VisualBasic.Settings="Assembly references and imported namespaces serialized as XML namespaces" />
+                </If.Else>
+              </If>
+            </Sequence>
+<!-- RM : END -->
+            <mtba:RunScript DisplayName="Run optional script before Test Runner" />
+          </Sequence>
+        </TryCatch.Try>
+      </TryCatch>
+    </mtbwa:AgentScope>
+  </Sequence>
+</Activity>
