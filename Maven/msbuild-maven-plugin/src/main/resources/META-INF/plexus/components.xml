@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2013 Andrew Everitt, Andrew Heckford, Daniele Masato
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<component-set>
+    <components>
+        <!-- ********************************************************************** -->
+        <!-- Configure msbuild-solution packaging -->
+        <!-- ********************************************************************** -->
+        <component>
+            <role>org.apache.maven.lifecycle.mapping.LifecycleMapping
+            </role>
+            <role-hint>msbuild-solution</role-hint>
+            <implementation>
+                org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+            </implementation>
+            <configuration>
+                <phases>
+                    <clean>
+                        org.apache.maven.plugins:maven-clean-plugin:clean,uk.org.raje.maven.plugins:msbuild-maven-plugin:clean
+                    </clean>
+                    <generate-resources>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:version-info
+                    </generate-resources>
+                    <compile>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:build
+                    </compile>
+                    <generate-test-sources>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:cxxtestgen
+                    </generate-test-sources>
+                    <test-compile>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:testbuild
+                    </test-compile>
+                    <test>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:test
+                    </test>
+                    <verify>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:cppcheck,uk.org.raje.maven.plugins:msbuild-maven-plugin:vera,uk.org.raje.maven.plugins:msbuild-maven-plugin:sonar
+                    </verify>
+                    <package>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:solution-package
+                    </package>
+                    <install>
+                        org.apache.maven.plugins:maven-install-plugin:install
+                    </install>
+                    <deploy>
+                        org.apache.maven.plugins:maven-deploy-plugin:deploy
+                    </deploy>
+                </phases>
+            </configuration>
+        </component>
+        <component>
+            <role>org.apache.maven.artifact.handler.ArtifactHandler
+            </role>
+            <role-hint>msbuild-solution</role-hint>
+            <implementation>
+                org.apache.maven.artifact.handler.DefaultArtifactHandler
+            </implementation>
+            <configuration>
+                <packaging>msbuild-solution</packaging>
+                <!--the extension used by Maven in the repository -->
+                <extension>zip</extension>
+                <!--the type used when specifying dependencies etc. -->
+                <type>msbuild-solution</type>
+                <language>native</language>
+            </configuration>
+        </component>
+        <!-- ********************************************************************** -->
+        <!-- Configure exe packaging -->
+        <!-- ********************************************************************** -->
+        <component>
+            <role>org.apache.maven.lifecycle.mapping.LifecycleMapping
+            </role>
+            <role-hint>exe</role-hint>
+            <implementation>
+                org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+            </implementation>
+            <configuration>
+                <phases>
+                    <clean>
+                        org.apache.maven.plugins:maven-clean-plugin:clean,uk.org.raje.maven.plugins:msbuild-maven-plugin:clean
+                    </clean>
+                    <generate-resources>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:version-info
+                    </generate-resources>
+                    <compile>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:build
+                    </compile>
+                    <generate-test-sources>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:cxxtestgen
+                    </generate-test-sources>
+                    <test-compile>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:testbuild
+                    </test-compile>
+                    <test>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:test
+                    </test>
+                    <verify>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:cppcheck,uk.org.raje.maven.plugins:msbuild-maven-plugin:vera,uk.org.raje.maven.plugins:msbuild-maven-plugin:sonar
+                    </verify>
+                    <install>
+                        org.apache.maven.plugins:maven-install-plugin:install
+                    </install>
+                    <deploy>
+                        org.apache.maven.plugins:maven-deploy-plugin:deploy
+                    </deploy>
+                </phases>
+            </configuration>
+        </component>
+        <component>
+            <role>org.apache.maven.artifact.handler.ArtifactHandler
+            </role>
+            <role-hint>exe</role-hint>
+            <implementation>
+                org.apache.maven.artifact.handler.DefaultArtifactHandler
+            </implementation>
+            <configuration>
+                <packaging>exe</packaging>
+                <extension>exe</extension>
+                <type>exe</type>
+                <language>native</language>
+            </configuration>
+        </component>
+        <!-- ********************************************************************** -->
+        <!-- Configure lib packaging -->
+        <!-- ********************************************************************** -->
+        <component>
+            <role>org.apache.maven.lifecycle.mapping.LifecycleMapping
+            </role>
+            <role-hint>lib</role-hint>
+            <implementation>
+                org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+            </implementation>
+            <configuration>
+                <phases>
+                    <clean>
+                        org.apache.maven.plugins:maven-clean-plugin:clean,uk.org.raje.maven.plugins:msbuild-maven-plugin:clean
+                    </clean>
+                    <compile>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:build
+                    </compile>
+                    <generate-test-sources>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:cxxtestgen
+                    </generate-test-sources>
+                    <test-compile>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:testbuild
+                    </test-compile>
+                    <test>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:test
+                    </test>
+                    <verify>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:cppcheck,uk.org.raje.maven.plugins:msbuild-maven-plugin:vera,uk.org.raje.maven.plugins:msbuild-maven-plugin:sonar
+                    </verify>
+                    <install>
+                        org.apache.maven.plugins:maven-install-plugin:install
+                    </install>
+                    <deploy>
+                        org.apache.maven.plugins:maven-deploy-plugin:deploy
+                    </deploy>
+                </phases>
+            </configuration>
+        </component>
+        <component>
+            <role>org.apache.maven.artifact.handler.ArtifactHandler
+            </role>
+            <role-hint>lib</role-hint>
+            <implementation>
+                org.apache.maven.artifact.handler.DefaultArtifactHandler
+            </implementation>
+            <configuration>
+                <packaging>lib</packaging>
+                <extension>lib</extension>
+                <type>lib</type>
+                <language>native</language>
+            </configuration>
+        </component>
+        <!-- ********************************************************************** -->
+        <!-- Configure dll packaging -->
+        <!-- ********************************************************************** -->
+        <component>
+            <role>org.apache.maven.lifecycle.mapping.LifecycleMapping
+            </role>
+            <role-hint>dll</role-hint>
+            <implementation>
+                org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+            </implementation>
+            <configuration>
+                <phases>
+                    <clean>
+                        org.apache.maven.plugins:maven-clean-plugin:clean,uk.org.raje.maven.plugins:msbuild-maven-plugin:clean
+                    </clean>
+                    <generate-resources>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:version-info
+                    </generate-resources>
+                    <compile>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:build
+                    </compile>
+                    <generate-test-sources>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:cxxtestgen
+                    </generate-test-sources>
+                    <test-compile>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:testbuild
+                    </test-compile>
+                    <test>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:test
+                    </test>
+                    <verify>
+                        uk.org.raje.maven.plugins:msbuild-maven-plugin:cppcheck,uk.org.raje.maven.plugins:msbuild-maven-plugin:vera,uk.org.raje.maven.plugins:msbuild-maven-plugin:sonar
+                    </verify>
+                    <install>
+                        org.apache.maven.plugins:maven-install-plugin:install
+                    </install>
+                    <deploy>
+                        org.apache.maven.plugins:maven-deploy-plugin:deploy
+                    </deploy>
+                </phases>
+            </configuration>
+        </component>
+        <component>
+            <role>org.apache.maven.artifact.handler.ArtifactHandler
+            </role>
+            <role-hint>dll</role-hint>
+            <implementation>
+                org.apache.maven.artifact.handler.DefaultArtifactHandler
+            </implementation>
+            <configuration>
+                <packaging>dll</packaging>
+                <extension>dll</extension>
+                <type>dll</type>
+                <language>native</language>
+            </configuration>
+        </component>
+    </components>
+</component-set>
