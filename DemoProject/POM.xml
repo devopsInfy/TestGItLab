@@ -5,7 +5,7 @@
 	<groupId>com.github.devopsInfy</groupId>
 	<artifactId>TestGItLab</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>msbuild-solution</packaging>
 	<name>DemoProject</name> 
 	<description>Project to demonstrate GitHub Maven plugins</description> 
 	<url>https://github.com/devopsInfy/TestGItLab</url> 
@@ -30,7 +30,7 @@
 			<configuration>
 				<msbuildPath>C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\msbuild.exe</msbuildPath>
 				<projectFile>${basedir}/SampleCDRMWebApp/SampleCDRMWebApp.sln</projectFile>
-				<platforms>
+	<!--			<platforms>
 					<platform>
 						<name>Win32</name>
 						<configurations>
@@ -42,7 +42,7 @@
 							</configuration>
 						</configurations>
 					</platform>
-				</platforms>
+				</platforms> -->
 			</configuration>
 			</plugin>
 			<plugin>
