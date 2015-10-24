@@ -29,7 +29,7 @@
 			<extensions>true</extensions>
 			<configuration>
 				<msbuildPath>C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe</msbuildPath>
-				<projectFile>${basedir}/SampleCDRMWebApp/SampleCDRMWebApp.sln</projectFile>
+				<projectFile>${basedir}/SampleWCFService/SampleWCFService.sln</projectFile>
 				<platforms>
 					<platform>
 						<name>Any CPU</name>
