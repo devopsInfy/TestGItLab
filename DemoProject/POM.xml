@@ -32,11 +32,8 @@
 				<projectFile>${basedir}/SampleCDRMWebApp/SampleCDRMWebApp.sln</projectFile>
 				<platforms>
 					<platform>
-						<name>'Any CPU'</name>
+						<name>Any CPU</name>
 						<configurations>
-							<configuration>
-								<name>Release</name>
-							</configuration>
 							<configuration>
 								<name>Debug</name>
 							</configuration>
