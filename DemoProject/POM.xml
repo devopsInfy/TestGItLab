@@ -5,8 +5,8 @@
 	<groupId>com.github.devopsInfy</groupId>
 	<artifactId>TestGItLab</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<packaging>msbuild-solution</packaging>
-	<name>DemoProject</name> 
+	<packaging>dll</packaging>
+	<name>DemoProject</name>
 	<description>Project to demonstrate GitHub Maven plugins</description> 
 	<url>https://github.com/devopsInfy/TestGItLab</url> 
 	<scm> 
