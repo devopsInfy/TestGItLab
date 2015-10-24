@@ -22,20 +22,44 @@
 	</properties>
 	<build>
 		<plugins>
-		<plugin>
-			<groupId>org.codehaus.sonar-plugins.dotnet</groupId>
-			<artifactId>maven-dotnet-plugin</artifactId>
-			<version>1.2</version>
+			<plugin>
+			<groupId>uk.org.raje.maven.plugins</groupId>
+			<artifactId>msbuild-maven-plugin</artifactId>
+			<version>1.2.1</version>
 			<extensions>true</extensions>
-		</plugin>
-		<plugin>
-			<groupId>org.codehaus.mojo</groupId>
-			<artifactId>sonar-maven-plugin</artifactId>
-			<version>2.7</version>
 			<configuration>
-				<language>cs</language>
+				<msbuildPath>C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\msbuild.exe</msbuildPath>
+				<projectFile>${basedir}/SampleCDRMWebApp/SampleCDRMWebApp.sln</projectFile>
+				<platforms>
+					<platform>
+						<name>Win32</name>
+						<configurations>
+							<configuration>
+								<name>Release</name>
+							</configuration>
+							<configuration>
+								<name>Debug</name>
+							</configuration>
+						</configurations>
+					</platform>
+				</platforms>
 			</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.sonar-plugins.dotnet</groupId>
+				<artifactId>maven-dotnet-plugin</artifactId>
+				<version>1.2</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<language>cs</language>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
 	<repositories>
