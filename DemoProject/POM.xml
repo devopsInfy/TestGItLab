@@ -36,6 +36,7 @@
 						<configurations>
 							<configuration>
 								<name>Debug</name>
+								<outputDirectory>${basedir}\SampleWCFService\SampleWCFService\bin\Debug</outputDirectory>
 							</configuration>
 						</configurations>
 					</platform>
