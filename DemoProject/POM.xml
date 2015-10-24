@@ -14,12 +14,12 @@
 		<connection>scm:git:git://https://github.com/devopsInfy/TestGItLab.git</connection> 
 		<developerConnection>scm:git:git@github.com:devopsInfy/TestGItLab.git</developerConnection> 
 	</scm> 
-	<properties>
+	<!--<properties>
 		<visual.studio.solution>SampleCDRMWebApp.sln</visual.studio.solution>
 		<visual.test.project.pattern>*.Tests</visual.test.project.pattern>
 		<dotnet.tool.version>3.5</dotnet.tool.version>
 		<sonar.language>cs</sonar.language>
-	</properties>
+	</properties> -->
 	<build>
 		<plugins>
 			<plugin>
@@ -28,11 +28,11 @@
 			<version>1.2.1</version>
 			<extensions>true</extensions>
 			<configuration>
-				<msbuildPath>C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\msbuild.exe</msbuildPath>
+				<msbuildPath>C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe</msbuildPath>
 				<projectFile>${basedir}/SampleCDRMWebApp/SampleCDRMWebApp.sln</projectFile>
-	<!--			<platforms>
+				<platforms>
 					<platform>
-						<name>Win32</name>
+						<name>'Any CPU'</name>
 						<configurations>
 							<configuration>
 								<name>Release</name>
@@ -42,7 +42,7 @@
 							</configuration>
 						</configurations>
 					</platform>
-				</platforms> -->
+				</platforms> 
 			</configuration>
 			</plugin>
 			<plugin>
