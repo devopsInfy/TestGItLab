@@ -42,6 +42,21 @@
 					</platform>
 				</platforms> 
 			</configuration>
+			<configuration>
+				<msbuildPath>C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe</msbuildPath>
+				<projectFile>${basedir}/SampleCDRMWebApp/SampleCDRMWebApp.sln</projectFile>
+				<platforms>
+					<platform>
+						<name>Any CPU</name>
+						<configurations>
+							<configuration>
+								<name>Debug</name>
+								<outputDirectory>${basedir}\SampleCDRMWebApp\SampleCDRMWebApp\bin</outputDirectory>
+							</configuration>
+						</configurations>
+					</platform>
+				</platforms> 
+			</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.sonar-plugins.dotnet</groupId>
