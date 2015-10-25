@@ -27,7 +27,7 @@
 			<artifactId>msbuild-maven-plugin</artifactId>
 			<version>1.2.1</version>
 			<extensions>true</extensions>
-			<configuration>
+<!--			<configuration>
 				<msbuildPath>C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe</msbuildPath>
 				<projectFile>${basedir}/SampleWCFService/SampleWCFService.sln</projectFile>
 				<platforms>
@@ -41,7 +41,7 @@
 						</configurations>
 					</platform>
 				</platforms> 
-			</configuration>
+			</configuration> -->
 			<configuration>
 				<msbuildPath>C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe</msbuildPath>
 				<projectFile>${basedir}/SampleCDRMWebApp/SampleCDRMWebApp.sln</projectFile>
