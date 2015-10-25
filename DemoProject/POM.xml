@@ -84,11 +84,26 @@
 			</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.codehaus.sonar-plugins.dotnet.csharp</groupId>
+				<artifactId>sonar-csharp-core-plugin</artifactId>
+				<version>1.4</version>
+				<extensions>true</extensions> 
+				<configuration>
+					<solutionName>${basedir}/SampleCDRMWebApp/SampleCDRMWebApp.sln</solutionName>
+					<language>cs</language>
+					<toolVersion>3.5</toolVersion>
+					<Platform>x86</Platform>
+					<buildConfigurations>Release,Debug</buildConfigurations>
+					<rebuild>true</rebuild>
+				</configuration>
+			</plugin>
+			<!--<plugin>
 				<groupId>org.codehaus.sonar-plugins.dotnet</groupId>
 				<artifactId>sonar-dotnet</artifactId>
-				<!--<artifactId>sonar-plugin-dotnet-core</artifactId>-->
+				<artifactId>sonar-plugin-dotnet-core</artifactId>
 				<version>0.6</version>
-			</plugin>
+			</plugin>-->
+			
 			<!--<plugin> 
  				<groupId>org.codehaus.sonar-plugins.dotnet</groupId> 
  				<artifactId>maven-dotnet-plugin</artifactId> 
