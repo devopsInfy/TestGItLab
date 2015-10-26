@@ -110,6 +110,8 @@
  				<version>1.2</version> 
  				<extensions>true</extensions> 
 				<configuration>
+					<source>${basedir}/SampleCDRMWebApp</source>
+					<projectBaseDir>${basedir}/SampleCDRMWebApp</projectBaseDir>
 					<solutionName>${basedir}/SampleCDRMWebApp/SampleCDRMWebApp.sln</solutionName>
 					<language>cs</language>
 					<toolVersion>3.5</toolVersion>
