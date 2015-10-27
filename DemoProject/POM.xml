@@ -20,31 +20,28 @@
 		<dotnet.tool.version>3.5</dotnet.tool.version>
 		<sonar.language>cs</sonar.language>
 	</properties> -->
+	
 	<dependencies>
+<!--
+		<dependency>
+		<groupId>org.codehaus.sonar</groupId>
+		<artifactId>sonar-plugin-api</artifactId>
+		<version>5.1</version>
+		</dependency>
 
-<!-- sonar open-source 
+		<dependency>
+		<groupId>org.codehaus.sonar</groupId>
+		<artifactId>sonar-squid</artifactId>
+		<version>4.2</version>
+		</dependency>
 
-
-
-<dependency>
-<groupId>org.codehaus.sonar</groupId>
-<artifactId>sonar-plugin-api</artifactId>
-<version>5.1</version>
-</dependency>
-
-<dependency>
-<groupId>org.codehaus.sonar</groupId>
-<artifactId>sonar-squid</artifactId>
-<version>4.2</version>
-</dependency>
-
-<dependency>
-<groupId>org.codehaus.sonar</groupId>
-<artifactId>sonar-duplications</artifactId>
-<version>5.1</version>
-</dependency>
+		<dependency>
+		<groupId>org.codehaus.sonar</groupId>
+		<artifactId>sonar-duplications</artifactId>
+		<version>5.1</version>
+		</dependency>
 -->
-</dependencies>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -151,5 +148,16 @@
          <layout>default</layout>
        </repository>
     </repositories>-->
-
+	<distributionManagement>
+	  <repository>
+		 <id>deployment</id>
+		 <name>Internal Releases</name>
+		 <url>http://localhost:8081/nexus/content/repositories/releases/</url>
+	  </repository>
+	  <snapshotRepository>
+		 <id>deployment</id>
+		 <name>Internal Releases</name>
+		 <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+	  </snapshotRepository>
+	</distributionManagement>
 </project>
